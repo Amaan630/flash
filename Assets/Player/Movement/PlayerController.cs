@@ -43,6 +43,10 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        #if UNITY_EDITOR
+        UnityEditor.EditorWindow.focusedWindow.maximized = true;
+        #endif
+
         controller = GetComponent<CharacterController>();
         camAnimator = GetComponentInChildren<Camera>().GetComponent<Animator>();
         flashTimeController = GetComponent<FlashTimeController>();
@@ -68,6 +72,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        HandleEditorFullScreen();
         CameraLook();
         HandleMovementInput();
         HandleFlashMode();
@@ -175,5 +180,15 @@ public class PlayerController : MonoBehaviour
                 transform.position = new Vector3(transform.position.x, hitInfo.point.y + controller.height / 2 + controller.skinWidth, transform.position.z);
             }
         }
+    }
+
+    void HandleEditorFullScreen()
+    {
+        #if UNITY_EDITOR
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                UnityEditor.EditorWindow.focusedWindow.maximized = !UnityEditor.EditorWindow.focusedWindow.maximized;
+            }   
+        #endif
     }
 }
