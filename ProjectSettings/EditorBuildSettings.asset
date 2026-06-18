@@ -1,3 +1,11 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:a3e5603514159fed3ce0a44c1441f75836687d5ea1b13c6f55915bd62228d2c1
-size 264
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/The_Viking_Village.unity
+    guid: 00000000000000000000000000000000
+  m_configObjects: {}
