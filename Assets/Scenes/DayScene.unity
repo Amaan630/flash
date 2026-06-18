@@ -6464,7 +6464,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 157207112}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a40599f90e820418cbc5cab784098907, type: 3}
   m_Name: 
@@ -45097,6 +45097,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6481978887412008160, guid: cb6bca4070d33429ebcbe481a9a0d4e0,
         type: 3}
+      propertyPath: m_ClearFlags
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6481978887412008160, guid: cb6bca4070d33429ebcbe481a9a0d4e0,
+        type: 3}
       propertyPath: field of view
       value: 77.2
       objectReference: {fileID: 0}
@@ -58059,22 +58064,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b746c69031e774b81acf130e2c489198, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlMode: 0
-  maxCarsInside: 1
-  allWayStopDelay: 1
-  greenDuration: 12
-  yellowDuration: 3
-  currentStateNorthSouth: 2
-  currentStateEastWest: 0
-  northSouthLightRenderer: {fileID: 0}
-  eastWestLightRenderer: {fileID: 0}
-  redMaterial: {fileID: 0}
-  yellowMaterial: {fileID: 0}
-  greenMaterial: {fileID: 0}
-  nextAllWayEntryTime: 0
-  phaseTimer: 0
-  activeAxis: 0
-  inYellow: 0
 --- !u!65 &1362271949
 BoxCollider:
   m_ObjectHideFlags: 0
