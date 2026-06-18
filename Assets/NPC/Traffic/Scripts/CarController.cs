@@ -52,7 +52,6 @@ public class CarController : MonoBehaviour
     [Header("Debug")]
     [SerializeField] private bool drawDebug = true;
     [SerializeField] private bool verboseDebugLogs;
-    [SerializeField] private bool showDebugOverlay = true;
     [SerializeField] private bool writeTrafficTraceLog = true;
     [SerializeField] private float traceLogIntervalSeconds = 0.2f;
     [SerializeField] private int maxBlockerHitDetails = 16;
@@ -96,7 +95,6 @@ public class CarController : MonoBehaviour
     private Vector3 lastToTarget;
     private Vector3 lastMoveDelta;
     private string lastBlockerHitDetails;
-    private Vector2 debugOverlayScroll;
 
     public TrafficLane CurrentLane => currentLane;
     public float CurrentSpeedMph => currentSpeedMetersPerSecond / MphToMetersPerSecond;
@@ -660,38 +658,6 @@ public class CarController : MonoBehaviour
         Gizmos.matrix = Matrix4x4.TRS(origin + forward * blockerLookAheadMeters * 0.5f, Quaternion.LookRotation(forward, Vector3.up), Vector3.one);
         Gizmos.DrawWireCube(Vector3.zero, new Vector3(blockerBoxHalfExtents.x * 2f, blockerBoxHalfExtents.y * 2f, blockerLookAheadMeters));
         Gizmos.matrix = Matrix4x4.identity;
-    }
-
-    private void OnGUI()
-    {
-        if (!showDebugOverlay || !Application.isPlaying)
-        {
-            return;
-        }
-
-        float panelWidth = Mathf.Min(Screen.width - 24f, 900f);
-        float panelHeight = Mathf.Min(Screen.height - 24f, 520f);
-
-        GUILayout.BeginArea(new Rect(12f, 12f, panelWidth, panelHeight), GUI.skin.box);
-        debugOverlayScroll = GUILayout.BeginScrollView(debugOverlayScroll);
-        GUILayout.Label($"Traffic Car: {name}");
-        GUILayout.Label($"Lane: {LaneName(currentLane)}");
-        GUILayout.Label($"Distance: {laneDistance:0.0}/{(currentLane != null ? currentLane.Length : 0f):0.0}");
-        GUILayout.Label($"Speed: {CurrentSpeedMph:0.0} mph");
-        GUILayout.Label($"Forward: {FormatVector(transform.forward)}");
-        GUILayout.Label($"Move Delta: {FormatVector(lastMoveDelta)}");
-        GUILayout.Label($"Planned Next: {LaneName(plannedNextLane)}");
-        GUILayout.Label($"Changing: {LaneName(laneChangeFromLane)} -> {LaneName(laneChangeToLane)} ({laneChangeProgress:0.0}/{laneChangeLengthMeters:0.0})");
-        GUILayout.Label($"Target: {FormatVector(lastTargetPoint)}");
-        GUILayout.Label($"To Target: {FormatVector(lastToTarget)} angle={lastTurnAngleToTarget:0.0}");
-        GUILayout.Label($"Slowdown: {(string.IsNullOrEmpty(slowdownReason) ? "none" : slowdownReason)}");
-        GUILayout.Label($"Blocker: {(string.IsNullOrEmpty(lastBlockerName) ? "none" : lastBlockerName)}");
-        GUILayout.Label($"Event: {lastDebugEvent}");
-        GUILayout.Label($"Trace: {(string.IsNullOrEmpty(traceLogPath) ? "off" : traceLogPath)}");
-        GUILayout.Label("Blocker Sensor Hits:");
-        GUILayout.TextArea(string.IsNullOrEmpty(lastBlockerHitDetails) ? "none yet" : lastBlockerHitDetails);
-        GUILayout.EndScrollView();
-        GUILayout.EndArea();
     }
 
     private void OpenTraceLog()
