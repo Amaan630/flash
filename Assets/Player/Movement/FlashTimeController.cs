@@ -8,6 +8,9 @@ public class FlashTimeController : MonoBehaviour
     public float timeSlowFactor = 0.1f;
     public float normalTimeScale = 1f;
 
+    [Header("Time Transition Settings")]
+    public float timeScaleTransitionSeconds = 0.15f;
+
     public float chromaticAberrationSpeed = 10f;
 
     [Header("Field of View Settings")]
@@ -19,12 +22,20 @@ public class FlashTimeController : MonoBehaviour
     private bool isInSlowMotion = false;
     private float currentSuperSpeed;
     private float lastFlashActivationTime;
+    private float baseFixedDeltaTime = 0.02f;
+    private float targetTimeScale = 1f;
 
     private Camera playerCamera;
     private PostProcessingManager postProcessingManager;
 
     public bool IsInFlashMode => isInFlashMode;
     public bool IsInSlowMotion => isInSlowMotion;
+
+    private void Awake()
+    {
+        baseFixedDeltaTime = Time.timeScale > 0f ? Time.fixedDeltaTime / Time.timeScale : Time.fixedDeltaTime;
+        targetTimeScale = normalTimeScale;
+    }
 
     private void Start()
     {
@@ -39,6 +50,19 @@ public class FlashTimeController : MonoBehaviour
         {
             Debug.LogError("PostProcessingManager not found in the scene!");
         }
+    }
+
+    private void Update()
+    {
+        UpdateTimeScaleTransition();
+    }
+
+    private void OnDisable()
+    {
+        isInFlashMode = false;
+        isInSlowMotion = false;
+        targetTimeScale = normalTimeScale;
+        SetTimeScaleImmediate(normalTimeScale);
     }
 
     public void ActivateFlashMode(bool isMoving)
@@ -56,7 +80,7 @@ public class FlashTimeController : MonoBehaviour
     {
         isInFlashMode = false;
         isInSlowMotion = false;
-        SetTimeScale(normalTimeScale);
+        SetTargetTimeScale(normalTimeScale);
         UpdateChromaticAberration(0f);
     }
 
@@ -72,26 +96,50 @@ public class FlashTimeController : MonoBehaviour
         {
             if (isInSlowMotion || !isMoving)
             {
-                SetTimeScale(timeSlowFactor);
+                SetTargetTimeScale(timeSlowFactor);
                 UpdateChromaticAberration(1f);
             }
             else
             {
-                SetTimeScale(normalTimeScale);
+                SetTargetTimeScale(normalTimeScale);
                 UpdateChromaticAberration(0.5f);
             }
         }
         else
         {
-            SetTimeScale(normalTimeScale);
+            SetTargetTimeScale(normalTimeScale);
             UpdateChromaticAberration(0f);
         }
     }
 
-    private void SetTimeScale(float scale)
+    private void SetTargetTimeScale(float scale)
+    {
+        targetTimeScale = Mathf.Max(0.0001f, scale);
+    }
+
+    private void UpdateTimeScaleTransition()
+    {
+        if (Mathf.Approximately(Time.timeScale, targetTimeScale))
+        {
+            SetTimeScaleImmediate(targetTimeScale);
+            return;
+        }
+
+        if (timeScaleTransitionSeconds <= 0f)
+        {
+            SetTimeScaleImmediate(targetTimeScale);
+            return;
+        }
+
+        float transitionRange = Mathf.Max(Mathf.Abs(normalTimeScale - timeSlowFactor), 0.01f);
+        float nextTimeScale = Mathf.MoveTowards(Time.timeScale, targetTimeScale, transitionRange / timeScaleTransitionSeconds * Time.unscaledDeltaTime);
+        SetTimeScaleImmediate(nextTimeScale);
+    }
+
+    private void SetTimeScaleImmediate(float scale)
     {
         Time.timeScale = scale;
-        Time.fixedDeltaTime = 0.02f * Time.timeScale;
+        Time.fixedDeltaTime = baseFixedDeltaTime * Time.timeScale;
     }
 
     private void UpdateChromaticAberration(float targetIntensity)

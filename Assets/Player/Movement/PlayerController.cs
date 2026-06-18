@@ -52,6 +52,12 @@ public class PlayerController : MonoBehaviour
         flashTimeController = GetComponent<FlashTimeController>();
         controls = GetComponent<PlayerControls>();
 
+        FlashRunMusicController flashRunMusicController = GetComponent<FlashRunMusicController>();
+        if (flashRunMusicController == null)
+        {
+            flashRunMusicController = gameObject.AddComponent<FlashRunMusicController>();
+        }
+
         if (hideCursor)
         {
             Cursor.visible = false;

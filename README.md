@@ -15,7 +15,7 @@ Current core ideas present in the repo:
 - Slow-motion behavior when Flash mode is held while standing still, or when the slow-motion input is also held.
 - URP post-processing setup through a `PostProcessingManager`.
 - Day-night rotation script for world lighting.
-- Early traffic simulation with cars, road segments, intersections, traffic lights, and respawning.
+- Early traffic simulation with cars, lane segments, inferred intersections, lane changes, and opt-in traffic obstacles.
 - Early NPC behavior tree and personality scaffolding for civilian routines and reactions.
 
 ## Unity Version
@@ -84,11 +84,10 @@ Located under `Assets/Scripts/`.
 
 Located under `Assets/NPC/Traffic/`.
 
-- `Scripts/CarController.cs` moves cars, detects obstacles, follows roads, handles intersections, and responds to traffic lights.
-- `Scripts/IntersectionController.cs` manages red/yellow/green cycles, valid turns, entry/exit waypoints, and light materials.
-- `Scripts/RoadManager.cs` auto-detects roads/intersections when not configured, spawns cars, and cleans up out-of-bounds cars.
-- `Scripts/RoadSegment.cs` stores road metadata, creates default lane waypoints, and draws road debug gizmos.
-- `Prefabs/Intersection.prefab` is the current traffic intersection prefab.
+- `Scripts/TrafficSystem.cs` belongs on the top-level `TRAFFIC` object. It scans child lanes and auto-builds lane connections, adjacent-lane checks, and simple intersection flow.
+- `Scripts/TrafficLane.cs` defines one physical lane segment from the end of one intersection to the start of another. Its gizmos draw the centerline and lane width.
+- `Scripts/CarController.cs` drives cars on the lane system, using mph speed, smooth lane transitions, blocker detection, lane changes, and traffic-system intersection permission.
+- `Scripts/TrafficObstacle.cs` is an opt-in trait for objects traffic should avoid. Add it to the player for now; unmarked street lights, curbs, road meshes, and scenery will not make cars brake.
 
 ### NPC Behavior
 
@@ -127,4 +126,3 @@ Because this is a Unity asset-heavy repo, avoid broad file moves or asset rename
 - Preserve Unity `.meta` files when adding, moving, or deleting assets.
 - If changing serialized fields, consider existing prefab and scene references before renaming fields.
 - When working on Flash-mode feel, tune `FlashTimeController` first before adding new effects.
-

@@ -621,6 +621,8 @@ GameObject:
   - component: {fileID: 7084466691735713191}
   - component: {fileID: 4373451204938074063}
   - component: {fileID: 3988598197206299505}
+  - component: {fileID: 542901230001000001}
+  - component: {fileID: 542901230001000002}
   - component: {fileID: 4092330341767770346}
   - component: {fileID: 7018382438703222722}
   - component: {fileID: 8295041649985670983}
@@ -689,10 +691,124 @@ MonoBehaviour:
   acceleration: 50
   timeSlowFactor: 0.1
   normalTimeScale: 1
+  timeScaleTransitionSeconds: 0.15
   chromaticAberrationSpeed: 1
   defaultFOV: 60
   flashModeFOV: 90
   fovChangeSpeed: 2
+--- !u!82 &542901230001000001
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7908314160233249525}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 100
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &542901230001000002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7908314160233249525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bfdee45b6bf4acc87b31636cc69ea50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicSource: {fileID: 542901230001000001}
+  flashRunTracks:
+  - {fileID: 8300000, guid: 15f8eacee5ff84b7ca42ff0bda52d692, type: 3}
+  - {fileID: 8300000, guid: 6f0494b57be70479fbdcc62f74cfd67e, type: 3}
+  - {fileID: 8300000, guid: 9a0a0fce9b10b47b8b96316ced978d66, type: 3}
+  preloadTracksOnAwake: 1
+  waitForPreloadedAudio: 1
+  maxVolume: 0.8
+  fadeInSeconds: 0.35
+  fadeOutSeconds: 5
+  slowMusicDuringFlashTime: 1
+  flashTimePitch: 0.65
+  pitchBlendSeconds: 0.25
+  autoLoadDefaultTracks: 1
 --- !u!114 &4092330341767770346
 MonoBehaviour:
   m_ObjectHideFlags: 0
