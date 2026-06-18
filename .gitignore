@@ -79,3 +79,5 @@ crashlytics-build.properties
 
 # ignore Archive.zip
 **/Archive.zip
+
+Assets/Packages/
